@@ -3,6 +3,7 @@ package com.cieep.a06_recyclerviewsyalertsdialog.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cieep.a06_recyclerviewsyalertsdialog.MainActivity;
 import com.cieep.a06_recyclerviewsyalertsdialog.R;
 import com.cieep.a06_recyclerviewsyalertsdialog.modelos.ToDo;
 
@@ -76,6 +78,15 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.TodoVH> {
                 confirmaUser("Estás seguro de cambiar el estado", toDo).show();
             }
         });
+
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmaEliminacion("VAS A ELIMINAR LA TAREA", toDo).show();
+            }
+        });
+
+
     }
 
     /**
@@ -85,6 +96,21 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.TodoVH> {
     @Override
     public int getItemCount() {
         return objects.size();
+    }
+
+    private AlertDialog confirmaEliminacion(String titulo, ToDo toDo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(titulo);
+        builder.setCancelable(false);
+        builder.setNegativeButton("NO", null);
+        builder.setPositiveButton("SIIIIII", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                objects.remove(toDo);
+                notifyDataSetChanged();
+            }
+        });
+        return builder.create();
     }
 
     private AlertDialog confirmaUser(String mensaje, ToDo toDo) {
@@ -108,13 +134,14 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.TodoVH> {
     public class TodoVH extends RecyclerView.ViewHolder {
 
         TextView lblTitulo, lblContenido, lblFecha;
-        ImageButton btnCompletado;
+        ImageButton btnCompletado, btnEliminar;
         public TodoVH(@NonNull View itemView) {
             super(itemView);
             lblTitulo = itemView.findViewById(R.id.lblTituloToDoViewModel);
             lblContenido = itemView.findViewById(R.id.lblContenidoTodoViewModel);
             lblFecha = itemView.findViewById(R.id.lblFechaTodoViewModel);
             btnCompletado = itemView.findViewById(R.id.btnCompletadoToDoViewModel);
+            btnEliminar = itemView.findViewById(R.id.btnDeleteToDoViewModel);
         }
     }
 }
