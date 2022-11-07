@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,10 +32,14 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.TodoVH> {
     private int cardLayout;
 
 
+
+
     public TodosAdapter(Context context, ArrayList<ToDo> objects, int cardLayout) {
         this.context = context;
         this.objects = objects;
         this.cardLayout = cardLayout;
+
+
     }
 
     /**
@@ -86,6 +92,16 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.TodoVH> {
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("TODO", toDo);
+                Intent intent = new Intent(context, EditActicity.class);
+                intent.putExtras(bundle);
+                MainActivity.editTodo.launch(intent);
+            }
+        });
 
     }
 

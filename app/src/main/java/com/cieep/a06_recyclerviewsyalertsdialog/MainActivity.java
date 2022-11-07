@@ -9,7 +9,10 @@ import com.cieep.a06_recyclerviewsyalertsdialog.adapters.TodosAdapter;
 import com.cieep.a06_recyclerviewsyalertsdialog.modelos.ToDo;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     // Encargado de indicar como se organizaran los elementos en el recycler
     private RecyclerView.LayoutManager layoutManager;
 
-    public static ActivityResultLauncher<Intent> test;
+    public static ActivityResultLauncher<Intent> editTodo;
+
+
 
 
 
@@ -49,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        test = registerForActivityResult()
+        editTodo = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                    }
+                });
 
         todosList = new ArrayList<>();
       //  creaTodos();
